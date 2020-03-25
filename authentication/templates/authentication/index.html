@@ -1,0 +1,216 @@
+
+{% load socialaccount %}
+{% providers_media_js %}
+<head>
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<style type="text/css" media="screen" rel="stylesheet">
+	body{
+		color: #fff;
+		font-family: 'Montserrat';
+		background: #10BBB3;
+		text-align: center;
+		font-size: 30px;
+	}
+
+	body {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+	}
+	body::-webkit-scrollbar {
+	    display: none;  /* Safari and Chrome */
+	}
+
+	.social-auth-buttons{
+		margin-top: 20vh;
+	}
+
+	#div1{
+		border: #FFF 2px solid;
+		border-radius: 25px;
+		width: 80vw;
+		margin-left: 10vw;
+		word-wrap: break-word;
+		padding:10px;
+	}
+	@media screen only and (min-width:600px) and (max-width: 2000px) {
+		body{
+			font-size: 40px;
+		}
+		.loginBtn{
+			width: 13em;
+			font-size: 18px;
+		}
+	}
+
+	.loginBtn a{
+		color: #fff;
+		text-decoration: none;
+	}
+
+	/* Shared */
+	.loginBtn {
+	  box-sizing: border-box;
+	  position: relative;
+	  width: 14em;
+	  margin: 0.2em;
+	  padding: 0 15px 0 46px;
+	  border: none;
+	  text-align: left;
+	  line-height: 34px;
+	  white-space: nowrap;
+	  border-radius: 0.2em;
+	  font-size: 25px;
+	  color: #FFF;
+	}
+	.loginBtn:before {
+	  content: "";
+	  box-sizing: border-box;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 34px;
+	  height: 100%;
+	}
+	.loginBtn:focus {
+	  outline: none;
+	}
+	.loginBtn:active {
+	  box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+	}
+
+
+	/* Facebook */
+	.loginBtn--facebook {
+	  background-color: #4C69BA;
+	  background-image: linear-gradient(#4C69BA, #3B55A0);
+	  /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
+		font-family: 'Montserrat';
+	  text-shadow: 0 -1px 0 #354C8C;
+	}
+	.loginBtn--facebook:before {
+	  border-right: #364e92 1px solid;
+	  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
+	}
+	.loginBtn--facebook:hover,
+	.loginBtn--facebook:focus {
+	  background-color: #5B7BD5;
+	  background-image: linear-gradient(#5B7BD5, #4864B1);
+	}
+
+
+	/* Google */
+	.loginBtn--google {
+	  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+		font-family: 'Montserrat';
+	  background: #DD4B39;
+	}
+	.loginBtn--google:before {
+	  border-right: #BB3F30 1px solid;
+	  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
+	}
+	.loginBtn--google:hover,
+	.loginBtn--google:focus {
+	  background: #E74B37;
+	}
+
+	.message-box{
+		display: table;
+		word-wrap: break-word;
+		max-width: 80vw;
+		padding: 15px;
+		margin: auto;
+		border: #FFF 2px solid;
+		border-radius: 20px;
+	}
+
+	.header{
+		height: 10vh;
+    text-align:center;
+	}
+
+	#iconPrevious
+	{
+	    float:left;
+			margin: auto;
+	}
+	#message
+	{
+		text-align: center-vertical;
+	    vertical-align:middle;
+	    font-weight:bold;
+			display: inline;
+			margin: auto;
+	}
+	#btnNext
+	{
+		font-family: "Montserrat";
+			margin: auto;
+	    float:right;
+			border: #000 1px solid;
+			border-radius: 20px;
+			background: #fff;
+			width: 90px;
+			height: 40px;
+	}
+</style>
+
+</head>
+
+<body>
+		{% if user.is_authenticated %}
+		<div class="header">
+			<img id="iconPrevious" src="https://img.icons8.com/color/60/000000/heart-with-arrow.png"/>
+			<h4 id="message">Hi {{user.first_name}}.</h4>
+			<button id="btnNext" class="">
+				<a href="{% url 'logout' %}">Logout</a>
+			</button>
+		</div>
+			<h5>Share this url so that people could text you. Click to copy:</h5>
+
+			<div id="div1" onclick="copyDivToClipboard()">
+				<h6> Hey. I am on	Crush Message. Write something about me here: http://localhost:8000/CrushMessage/{{user.username}}
+					</h6>
+			</div>
+
+			<br>
+			<h4>Messages you have received:</h4>
+					{% if message_list %}
+						{% for message in message_list %}
+								<div class="message-box">
+										{{message.message_text}}
+								</div>
+								<br>
+						{% endfor %}
+					{% else %}
+						<p>You have received no messages yet ! </p>
+					{% endif %}
+		{% else %}
+
+		<h1> Welcome to Crush Message </h1>
+
+		<p>Sign Up to start receiving anonymous messages</p>
+		<div class="social-auth-buttons">
+			<!-- <button class="loginBtn loginBtn--facebook">
+				<a href="{% provider_login_url "facebook" method="oauth2" %}">Login via Facebook</a>
+			</button> -->
+
+			<br><br>
+
+			<button class="loginBtn loginBtn--google">
+				<a href="{% provider_login_url "google" method="oauth2" %}">Login via Google</a>
+			</button>
+		</div>
+
+		{% endif %}
+
+		<script type="text/javascript">
+			function copyDivToClipboard() {
+					var range = document.createRange();
+					range.selectNode(document.getElementById("div1"));
+					window.getSelection().removeAllRanges(); // clear current selection
+					window.getSelection().addRange(range); // to select text
+					document.execCommand("copy");
+					window.getSelection().removeAllRanges();// to deselect
+			}
+		</script>
+</body>
