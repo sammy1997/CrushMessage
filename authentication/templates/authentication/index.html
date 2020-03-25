@@ -168,7 +168,7 @@
 			<h5>Share this url so that people could text you. Click to copy:</h5>
 
 			<div id="div1" onclick="copyDivToClipboard()">
-				<h6> Hey. I am on	Crush Message. Write something about me here: http://localhost:8000/CrushMessage/{{user.username}}
+				<h6> Hey. I am on Crush Message. Write something about me here: http://CrushMessage.pythonanywhere.com/CrushMessage/{{user.username}}
 					</h6>
 			</div>
 
@@ -205,6 +205,7 @@
 
 		<script type="text/javascript">
 			function copyDivToClipboard() {
+					alert('Copied! Now you can share this with your friends!');
 					var range = document.createRange();
 					range.selectNode(document.getElementById("div1"));
 					window.getSelection().removeAllRanges(); // clear current selection
