@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import Message
@@ -30,3 +30,9 @@ def submit_message(request, username):
 		except User.DoesNotExist:
 			return render(request, 'authentication/invalid_user.html')
 		return render(request,'authentication/post_message.html', {'username':username, "name": user.first_name})
+
+
+def delete_message(request, message_id):
+	message = Message.objects.get(pk=message_id)
+	message.delete()
+	return redirect('authentication:home')

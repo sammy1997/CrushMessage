@@ -178,6 +178,7 @@
 						{% for message in message_list %}
 								<div class="message-box">
 										{{message.message_text}}
+										<p><a style="color: red; font-size: 15px;" href="{% url 'authentication:delete' message.id %}">Delete this message</a></p>
 								</div>
 								<br>
 						{% endfor %}
